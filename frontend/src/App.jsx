@@ -20,8 +20,6 @@ function App() {
       <ErrorBaseInjection/>
       <hr/>
       <BlindInjection/>
-      <hr/>
-      <UnionInjection/>
     </>
   )
 }
