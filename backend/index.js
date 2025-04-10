@@ -10,6 +10,7 @@ const db = mysql.createConnection({
   user: "root",
   password: "root", // Change as needed
   database: "sqlInjection",
+  multipleStatements: true
 });
 
 db.connect(err => {
@@ -41,11 +42,6 @@ app.get("/time", (req, res) => {
     if (err) {
         res.json({err: err})
         return;
-    }
-    if (result.length > 0) {
-      setTimeout(() => res.json({ exists: true }), 5000); // 5-second delay if user exists
-    } else {
-      res.json({ exists: false });
     }
   });
 });
@@ -101,6 +97,26 @@ app.get("/secure", (req, res) => {
         return;
     }
     res.json({ exists: result.length > 0 });
+  });
+});
+
+
+app.post("/api/register", (req, res) => {
+  const { username, password } = req.body;
+  const sql = `INSERT INTO users (username, password) VALUES (?, ?)`;
+  db.query(sql, [username, password], (err) => {
+    if (err) return res.status(500).send(err);
+    res.send("User registered.");
+  });
+});
+
+// Search user (simulates vulnerable query)
+app.get("/api/search", (req, res) => {
+  const { q } = req.query;
+  const sql = `SELECT * FROM users WHERE username = '${q}'`;
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.json(results);
   });
 });
 

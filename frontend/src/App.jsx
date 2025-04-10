@@ -15,11 +15,11 @@ function App() {
     <>
       <BasicInjection/>
       <hr/>
-      <SecondOrderInjection/>
-      <hr/>
       <ErrorBaseInjection/>
       <hr/>
       <BlindInjection/>
+      <hr/>
+      <SecondOrderInjection/>
     </>
   )
 }
